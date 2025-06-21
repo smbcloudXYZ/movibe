@@ -5,13 +5,21 @@ import NavFiles from "./NavFiles";
 import { readDirectory } from "../helpers/filesys";
 import { debug } from "@tauri-apps/plugin-log";
 import { invoke } from "@tauri-apps/api/core";
+import { platform } from "@tauri-apps/plugin-os";
+import { warn } from "@tauri-apps/plugin-log";
 
 export default function Sidebar() {
   const [projectName, setProjectName] = useState("");
   const [files, setFiles] = useState<IFile[]>([]);
   const [isExpanded, setIsExpanded] = useState(true); // State for sidebar width
+  const currentPlatform = platform();
 
   const loadFile = async () => {
+    if (currentPlatform == "android" || currentPlatform == "ios") {
+      warn("Unsupported platform");
+      return;
+    }
+
     const selected = await open({
       directory: true,
     });
