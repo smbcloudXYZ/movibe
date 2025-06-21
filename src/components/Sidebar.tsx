@@ -7,9 +7,16 @@ import { debug } from "@tauri-apps/plugin-log";
 import { invoke } from "@tauri-apps/api/core";
 import { platform } from "@tauri-apps/plugin-os";
 import { warn } from "@tauri-apps/plugin-log";
+import { IconButton } from "@radix-ui/themes";
+import {
+  PinLeftIcon,
+  PinRightIcon,
+  OpenInNewWindowIcon,
+  DownloadIcon,
+} from "@radix-ui/react-icons";
 
 export default function Sidebar() {
-  const [projectName, setProjectName] = useState("");
+  const [projectName, setProjectName] = useState("undefined");
   const [files, setFiles] = useState<IFile[]>([]);
   const [isExpanded, setIsExpanded] = useState(true); // State for sidebar width
   const currentPlatform = platform();
@@ -49,26 +56,42 @@ export default function Sidebar() {
       }`}
     >
       <div className="sidebar-header flex items-center justify-between p-4 py-2.5">
-        <button
+        <IconButton
           className="toggle-sidebar text-white" // Added `text-white` class
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {isExpanded ? "<" : ">"}
-        </button>
+          {isExpanded ? (
+            <PinLeftIcon width="18" height="18" />
+          ) : (
+            <PinRightIcon width="18" height="18" />
+          )}
+        </IconButton>
       </div>
       {isExpanded && (
         <>
           <div className="sidebar-header items-center justify-between p-4 py-2.5">
-            <button className="project-explorer" onClick={loadFile}>
-              Open Folder
-            </button>
-            <button className="project-explorer" onClick={cloneRepository}>
-              Clone Repository
-            </button>
+            <div className="mb-2 pl-1">
+              <IconButton
+                className="project-explorer text-white" // Added `text-white` class
+                onClick={loadFile}
+                title="Open Folder"
+              >
+                <OpenInNewWindowIcon width="16" height="16" />
+              </IconButton>
+            </div>
+            <div className="mb-2 pl-1">
+              <IconButton
+                className="project-explorer text-white" // Added `text-white` class
+                onClick={cloneRepository}
+                title="Clone Repository"
+              >
+                <DownloadIcon width="16" height="16" />
+              </IconButton>
+            </div>
           </div>
           <div className="menu-section">
             <div className="menu-header cursor-pointer p-2 bg-gray-700 text-white">
-              Project Explorer
+              {projectName}
             </div>
             <div className="menu-content p-2">
               <NavFiles visible={true} files={files} />

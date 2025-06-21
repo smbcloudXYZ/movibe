@@ -24,6 +24,7 @@
     "fs:allow-exists",
     "log:default",
     "os:default",
-    "log:default"
+    "log:default",
+    "fs:default"
   ]
 }

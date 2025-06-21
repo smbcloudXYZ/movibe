@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useCallback } from "react"
+import { debug } from "@tauri-apps/plugin-log";
+import { createContext, useContext, useState, useCallback } from "react";
 
 interface ISourceContext {
   selected: string;
@@ -9,43 +10,66 @@ interface ISourceContext {
 }
 
 const SourceContext = createContext<ISourceContext>({
-  selected: '',
-  setSelect: (id) => { },
+  selected: "",
+  setSelect: (id) => {
+    debug(id);
+  },
   opened: [],
-  addOpenedFile: (id) => { },
-  delOpenedFile: (id) => { }
+  addOpenedFile: (id) => {
+    debug(id);
+  },
+  delOpenedFile: (id) => {
+    debug(id);
+  },
 });
 
-export const SourceProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
-  const [selected, setSelected] = useState('');
+export const SourceProvider = ({
+  children,
+}: {
+  children: JSX.Element | JSX.Element[];
+}) => {
+  const [selected, setSelected] = useState("");
   const [opened, updateOpenedFiles] = useState<string[]>([]);
 
   const setSelect = (id: string) => {
-    setSelected(id)
-  }
+    setSelected(id);
+  };
 
-  const addOpenedFile = useCallback((id: string) => {
-    if (opened.includes(id)) return;
-    updateOpenedFiles(prevOpen => ([...prevOpen, id]))
-  }, [opened])
+  const addOpenedFile = useCallback(
+    (id: string) => {
+      if (opened.includes(id)) return;
+      updateOpenedFiles((prevOpen) => [...prevOpen, id]);
+    },
+    [opened],
+  );
 
-  const delOpenedFile = useCallback((id: string) => {
-    updateOpenedFiles(prevOpen => prevOpen.filter(opened => opened !== id))
-  }, [opened])
+  const delOpenedFile = useCallback(
+    (id: string) => {
+      updateOpenedFiles((prevOpen) =>
+        prevOpen.filter((opened) => opened !== id),
+      );
+    },
+    [opened],
+  );
 
-  return <SourceContext.Provider value={{
-    selected,
-    setSelect,
-    opened,
-    addOpenedFile,
-    delOpenedFile
-  }}>
-    {children}
-  </SourceContext.Provider>
-}
+  return (
+    <SourceContext.Provider
+      value={{
+        selected,
+        setSelect,
+        opened,
+        addOpenedFile,
+        delOpenedFile,
+      }}
+    >
+      {children}
+    </SourceContext.Provider>
+  );
+};
 
 export const useSource = () => {
-  const { selected, setSelect, opened, addOpenedFile, delOpenedFile } = useContext(SourceContext)
+  const { selected, setSelect, opened, addOpenedFile, delOpenedFile } =
+    useContext(SourceContext);
 
-  return { selected, setSelect, opened, addOpenedFile, delOpenedFile }
-}
+  return { selected, setSelect, opened, addOpenedFile, delOpenedFile };
+};
