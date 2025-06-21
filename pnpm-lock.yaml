@@ -45,7 +45,7 @@ importers:
         specifier: ~2.4.3
         version: 2.4.3
       '@tauri-apps/plugin-log':
-        specifier: ~2.4.0
+        specifier: ~2
         version: 2.4.0
       '@tauri-apps/plugin-notification':
         specifier: ~2.2.2
@@ -54,7 +54,7 @@ importers:
         specifier: ^2.2.6
         version: 2.2.6
       '@tauri-apps/plugin-os':
-        specifier: ~2.2.1
+        specifier: ~2
         version: 2.2.1
       '@tauri-apps/plugin-process':
         specifier: ~2.2.1
