@@ -11,6 +11,7 @@
   ],
   "permissions": [
     "os:default",
-    "log:default"
+    "log:default",
+    "fs:default"
   ]
 }
