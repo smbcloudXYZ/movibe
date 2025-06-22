@@ -3,6 +3,7 @@ import { IFile } from "../types";
 import { open } from "@tauri-apps/plugin-dialog";
 import NavFiles from "./NavFiles";
 import { readDirectory, createProject } from "../helpers/filesys";
+import { readDir, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { debug } from "@tauri-apps/plugin-log";
 import { invoke } from "@tauri-apps/api/core";
 import { platform } from "@tauri-apps/plugin-os";
@@ -50,27 +51,14 @@ export default function Sidebar() {
   };
 
   const createNewProject = async () => {
-    if (currentPlatform == "android" || currentPlatform == "ios") {
-      warn("Unsupported platform");
-      return;
-    }
-
-    const selected = await open({
-      directory: true,
-    });
-
-    if (!selected) return;
-
-    const projectName = prompt("Enter project name:");
-    if (!projectName) return;
-
-    const projectPath = `${selected}/${projectName}`;
-
     try {
-      await createProject(projectPath);
-      setProjectName(projectPath);
+      const projectName = await createProject();
+      setProjectName(projectName);
       // Create a basic project structure
-      readDirectory(projectPath + "/").then((files) => {
+      const entries = await readDir("projectName", {
+        baseDir: BaseDirectory.AppData,
+      });
+      readDirectory(entries + "/").then((files) => {
         console.log(files);
         setFiles(files);
       });

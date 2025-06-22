@@ -65,9 +65,9 @@ export const readDirectory = (folderPath: string): Promise<IFile[]> => {
   });
 };
 
-export const createProject = (projectPath: string): Promise<string> => {
+export const createProject = (): Promise<string> => {
   return new Promise((resolve, reject) => {
-    invoke("create_project", { projectPath })
+    invoke("create_project")
       .then((message: unknown) => {
         const result = message as string;
         if (result === "OK") {
