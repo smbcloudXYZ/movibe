@@ -81,9 +81,9 @@ pub fn write_file(path: &str, content: &str) -> String {
     result
 }
 
-pub fn create_directory(path: &str) -> Result<()> {
+pub fn create_directory(path: &str) -> std::io::Result<()> {
     let dir_path = Path::new(path);
-    fs::create_dir(dir_path);
+    fs::create_dir_all(dir_path)?;
     Ok(())
 }
 
