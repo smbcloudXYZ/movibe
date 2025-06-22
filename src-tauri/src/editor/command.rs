@@ -17,3 +17,11 @@ pub fn write_file(file_path: &str, content: &str) -> String {
     fc::write_file(file_path, content);
     String::from("OK")
 }
+
+#[tauri::command]
+pub fn create_project(project_path: &str) -> String {
+    match fc::create_directory(project_path) {
+        Ok(_) => String::from("OK"),
+        Err(_) => String::from("ERROR"),
+    }
+}
