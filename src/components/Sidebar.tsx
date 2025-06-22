@@ -2,7 +2,8 @@ import { useState } from "react";
 import { IFile } from "../types";
 import { open } from "@tauri-apps/plugin-dialog";
 import NavFiles from "./NavFiles";
-import { readDirectory } from "../helpers/filesys";
+import { readDirectory, createProject } from "../helpers/filesys";
+import { readDir, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { debug } from "@tauri-apps/plugin-log";
 import { invoke } from "@tauri-apps/api/core";
 import { platform } from "@tauri-apps/plugin-os";
@@ -13,6 +14,7 @@ import {
   PinRightIcon,
   OpenInNewWindowIcon,
   DownloadIcon,
+  PlusIcon,
 } from "@radix-ui/react-icons";
 
 export default function Sidebar() {
@@ -46,6 +48,23 @@ export default function Sidebar() {
     await invoke("ssh_clone", {
       repoUrl: "https://github.com/setoelkahfi/personal-website.git",
     });
+  };
+
+  const createNewProject = async () => {
+    try {
+      const projectName = await createProject();
+      setProjectName(projectName);
+      // Create a basic project structure
+      const entries = await readDir("projectName", {
+        baseDir: BaseDirectory.AppData,
+      });
+      readDirectory(entries + "/").then((files) => {
+        console.log(files);
+        setFiles(files);
+      });
+    } catch (error) {
+      console.error("Failed to create project:", error);
+    }
   };
 
   return (
@@ -86,6 +105,15 @@ export default function Sidebar() {
                 title="Clone Repository"
               >
                 <DownloadIcon width="16" height="16" />
+              </IconButton>
+            </div>
+            <div className="mb-2 pl-1">
+              <IconButton
+                className="project-explorer text-white" // Added `text-white` class
+                onClick={createNewProject}
+                title="New Project"
+              >
+                <PlusIcon width="16" height="16" />
               </IconButton>
             </div>
           </div>

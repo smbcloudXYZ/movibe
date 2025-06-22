@@ -1,4 +1,4 @@
-use editor::command::{get_file_content, open_folder, write_file};
+use editor::command::{create_project, get_file_content, open_folder, write_file};
 use git::command::ssh_clone;
 
 mod editor;
@@ -23,7 +23,8 @@ pub fn run() {
             log::info!("Tauri application started");
             #[cfg(desktop)]
             {
-                app.handle().plugin(tauri_plugin_global_shortcut::Builder::new().build())?;
+                app.handle()
+                    .plugin(tauri_plugin_global_shortcut::Builder::new().build())?;
             }
             setup::setup(app)
         })
@@ -31,7 +32,8 @@ pub fn run() {
             ssh_clone,
             open_folder,
             get_file_content,
-            write_file
+            write_file,
+            create_project
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

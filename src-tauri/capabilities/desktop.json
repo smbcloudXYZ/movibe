@@ -2,14 +2,8 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "run-app-desktop",
   "description": "Permissions to run the app (desktop only)",
-  "windows": [
-    "main"
-  ],
-  "platforms": [
-    "linux",
-    "macOS",
-    "windows"
-  ],
+  "windows": ["main"],
+  "platforms": ["linux", "macOS", "windows"],
   "permissions": [
     "global-shortcut:default",
     "os:default",
@@ -21,13 +15,9 @@
     "global-shortcut:allow-unregister-all",
     {
       "identifier": "fs:allow-watch",
-      "allow": [
-        "*",
-        "**/*"
-      ]
+      "allow": ["*", "**/*"]
     },
     "fs:allow-unwatch",
-    "os:default",
     "log:default",
     "fs:default"
   ]
