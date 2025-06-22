@@ -12,4 +12,5 @@ gen/apple/*
 gen/android/*
 !gen/android/app/build.gradle.kts
 !gen/android/keystore.properties
+!gen/android/app/src/main/AndroidManifest.xml
 gen/schemas/*
