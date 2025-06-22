@@ -1,6 +1,6 @@
 [package]
 name = "movibe"
-version = "0.1.0"
+version = "0.1.1"
 description = "Movibe AI is a mobile-first, AI-powered, resource-aware vide coding platform."
 authors = ["you"]
 edition = "2021"
